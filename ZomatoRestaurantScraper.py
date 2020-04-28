@@ -101,16 +101,15 @@ class ZomatoRestaurant:
                 rest_details['restaurant_facilities'].append(div.get_text())
                 
             
-        rest_details['other'] = []
+        rest_details['top_dishes_and_other'] = []
+        rest_details['costing'] = ''
         other_data = soup.findAll("p", attrs={"color": "#4F4F4F"})
         for it in other_data:
             text_val = it.get_text()
             if "for" in text_val and "people" in text_val:
                 rest_details['costing'] = text_val.replace("\u20b9","Rs. ")
-            elif "," in text_val:
-                rest_details['top_dishes'] = text_val
             else:
-                rest_details['other'].append(text_val)
+                rest_details['top_dishes_and_other'].append(text_val)
         
         return rest_details
 
@@ -119,7 +118,7 @@ if __name__ == '__main__':
     if browser is None:
         sys.exit()
     out_file = open("zomato_pune.json", "a")
-    with open('pune_restaurant_details.txt', 'r', encoding="utf-8") as f:
+    with open('pune_restaurant_list.txt', 'r', encoding="utf-8") as f:
         for line in f:
             zr = ZomatoRestaurant(line)
             json.dump(zr.scrap(), out_file)

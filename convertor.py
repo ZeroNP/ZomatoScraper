@@ -8,11 +8,28 @@ Created on Mon Apr 27 23:21:05 2020
 
 import json 
 import csv 
-  
+import os
+
+file_name = 'zomato_pune.json'      #file to read from 
+csv_file_name = 'zomato_pune.csv'   #file to be written to
+
+
+dummy_file = file_name + '.bak' 
+with open(file_name, 'r') as read_obj, open(dummy_file, 'w') as write_obj:
+    # Write given line to the dummy file
+    write_obj.write('{"restaurants": [' + '\n')
+    # Read lines from original file one by one and append them to the dummy file
+    for line in read_obj:
+        write_obj.write(line)
+    write_obj.write('{ }]}')
+# remove original file
+os.remove(file_name)
+# Rename dummy file as the original file
+os.rename(dummy_file, file_name)
   
 # Opening JSON file and loading the data 
 # into the variable data 
-with open('zomato_pune.json') as json_file: 
+with open(file_name) as json_file: 
     data = json.load(json_file) 
   
 restaurants_data = data['restaurants'] 
@@ -27,7 +44,7 @@ csv_writer = csv.writer(data_file)
 # headers to the CSV file 
 
   
-header = ['name','reviews_count','contact','facilities','timing','address','known_for','restaurant_facilities','costing','top_dishes','other'] 
+header = ['name','rating','reviews_count','contact','facilities','timing','address','known_for','restaurant_facilities','top_dishes_and_other','costing'] 
 csv_writer.writerow(header) 
 for r in restaurants_data: 
       # Writing data of CSV file 
