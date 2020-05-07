@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 27 19:32:55 2020
-
-@author: zeronp
-"""
-
-import os
 import urllib
 from urllib import parse
 from bs4 import BeautifulSoup
@@ -16,11 +7,13 @@ import urllib.request
 from selenium import webdriver
 from bs4 import NavigableString
 import sys
+from selenium.webdriver.firefox.options import Options
 
 browser = None
 
 try:
-    browser = webdriver.Firefox()
+    options = Options()
+    browser = webdriver.Firefox(options=options)
 except Exception as error:
     print(error)
 
@@ -53,16 +46,11 @@ class ZomatoRestaurantLinkGen:
 
 
 if __name__ == '__main__':
-    stream = os.popen('pwd')
-    output = stream.read()
-    print(output)
-    os.system("export PATH=$PATH:"+output)
-
     if browser is None:
         print("Selenium not opened")
         sys.exit()
 
-    for x in range(1, 845):
+    for x in range(1, 846):
         print("Accessing page: " + str(x) + '\n')
         zr = ZomatoRestaurantLinkGen('https://www.zomato.com/pune/restaurants?page={}'.format(x))
         zr.scrap()

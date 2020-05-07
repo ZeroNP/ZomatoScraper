@@ -1,4 +1,3 @@
-
 import re
 import urllib
 from urllib import parse
@@ -12,12 +11,11 @@ import json
 from selenium.webdriver.firefox.options import Options
 import csv
 
-
 browser = None
 try:
-    #options = Options()
-    #options.add_argument('-headless')
-    browser = webdriver.Firefox()
+    options = Options()
+    options.add_argument('-headless')
+    browser = webdriver.Firefox(options=options)
 except Exception as error:
     print(error)
 
